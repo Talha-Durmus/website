@@ -216,35 +216,63 @@
 
 yesBtn.addEventListener("click", async function () {
 
-    /*
-    Önce mesaj ekranını aç
-    */
-
+    // Mesaj ekranını aç
     questionPage.classList.add("hidden");
-
     messagePage.classList.remove("hidden");
 
+    // Ziyaret zamanı
+    const now = new Date();
 
-    /*
-    Web3Forms'a bildirim gönder
-    */
+    const tarihSaat = now.toLocaleString("tr-TR", {
+        dateStyle: "full",
+        timeStyle: "medium"
+    });
 
-    const formData = new FormData();
+    // Cihaz bilgileri
+    const cihaz = navigator.userAgent;
 
-    formData.append(
-        "access_key",
-        "e1bca46b-fed5-44e3-91bc-7033a102b540"
-    );
+    // Ekran bilgileri
+    const ekran =
+        window.innerWidth + " x " + window.innerHeight;
 
-    formData.append(
-        "subject",
-        "❤️ Sitede EVET butonuna basıldı!"
-    );
+    // Zaman dilimi
+    const zamanDilimi =
+        Intl.DateTimeFormat().resolvedOptions().timeZone;
 
-    formData.append(
-        "message",
-        "❤️ Kız arkadaşın sitedeki EVET butonuna bastı!"
-    );
+    // Sayfa adresi
+    const sayfa =
+        window.location.href;
+
+    const data = {
+
+        access_key: "BURAYA_ACCESS_KEYİNİ_YAZ",
+
+        subject:
+            "❤️ EVET BUTONUNA BASILDI!",
+
+        message:
+
+            "❤️ EVET BUTONUNA BASILDI!\n\n" +
+
+            "🔢 Hayır butonuna basma sayısı: " +
+            noClicks + "\n\n" +
+
+            "🕐 Tarih ve saat:\n" +
+            tarihSaat + "\n\n" +
+
+            "🌍 Zaman dilimi:\n" +
+            zamanDilimi + "\n\n" +
+
+            "📱 Cihaz bilgisi:\n" +
+            cihaz + "\n\n" +
+
+            "📐 Ekran:\n" +
+            ekran + "\n\n" +
+
+            "🔗 Sayfa:\n" +
+            sayfa
+
+    };
 
 
     try {
@@ -253,19 +281,27 @@ yesBtn.addEventListener("click", async function () {
             "https://api.web3forms.com/submit",
             {
                 method: "POST",
-                body: formData
+
+                headers: {
+                    "Content-Type": "application/json",
+                    "Accept": "application/json"
+                },
+
+                body: JSON.stringify(data)
             }
         );
 
+        const result =
+            await response.json();
 
-        const result = await response.json();
-
-        console.log(result);
-
+        console.log(
+            "Web3Forms:",
+            result
+        );
 
     } catch (error) {
 
-        console.log(
+        console.error(
             "Bildirim gönderilemedi:",
             error
         );
@@ -273,7 +309,6 @@ yesBtn.addEventListener("click", async function () {
     }
 
 });
-
 
         /*
         ==========================================
