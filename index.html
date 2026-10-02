@@ -143,7 +143,7 @@
 
     <!-- SORU EKRANI -->
 
-    <div class="container" id="questionPage">
+    <div class="container" id="question">
 
         <div class="heart">❤️</div>
 
@@ -473,7 +473,7 @@ yesBtn.addEventListener("click", async function () {
         ==========================================
         HAYIR YAZISINI DEĞİŞTİR
         ==========================================
-        */
+        
 
         function changeNoText() {
 
@@ -502,7 +502,7 @@ yesBtn.addEventListener("click", async function () {
 
             noBtn.textContent = texts[index];
 
-        }
+        } */
 
 
         /*
@@ -543,6 +543,28 @@ yesBtn.addEventListener("click", async function () {
 
         setInterval(createHeart, 700);
 
+        function changeQuestionText() {
+
+    const messages = [
+        "Konuşmaya devam edelim mi? ❤️",
+        "Emin misin? 🥺",
+        "Bir daha düşünsen? 💔",
+        "Gerçekten gitmek istiyor musun? 😢",
+        "Kalbimi kırıyorsun ama... 🥹",
+        "Son kararın mı? ❤️",
+        "Bence biraz daha düşünmelisin... 💕",
+        "Hâlâ Hayır mı diyorsun? 😭",
+        "Peki... ama Evet hâlâ burada ❤️",
+        "Artık kaçış yok... 🥰"
+    ];
+
+    const index = Math.min(
+        noClicks,
+        messages.length - 1
+    );
+
+    question.textContent = messages[index];
+}
     </script>
 
 </body>
