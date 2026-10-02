@@ -326,56 +326,25 @@ yesBtn.addEventListener("click", async function () {
         ==========================================
         */
 
-        function growYesButton() {
+        ffunction growYesButton() {
 
-    /*
-    Her tıklamada daha belirgin ama
-    dengeli şekilde büyüyecek.
-    */
+    // Her "Hayır" tıklamasında daha dengeli büyüme
+    const scale = 1 + (noClicks * 0.11);
 
-    const sizes = [
-        23,  // 1. tıklama
-        32,  // 2. tıklama
-        40,  // 3. tıklama
-        47,  // 4. tıklama
-        53,  // 5. tıklama
-        58,  // 6. tıklama
-        60,  // 7. tıklama
-        65   // 8. tıklama
-    ];
+    // Yazı boyutu
+    const fontSize = Math.min(
+        18 + (noClicks * 3),
+        42
+    );
 
-    const index = Math.min(noClicks, sizes.length) - 1;
+    yesBtn.style.fontSize = fontSize + "px";
 
-    yesBtn.style.fontSize = sizes[index] + "px";
-
-
-    /*
-    1. tıklamadan itibaren butonun
-    kendisi de büyümeye başlıyor.
-    */
-
+    // Başlangıç boyutu
     const baseWidth = 140;
     const baseHeight = 55;
 
-    const growth = [
-        1.00,  // başlangıç
-        1.10,  // 1
-        1.20,  // 2
-        1.32,  // 3
-        1.45,  // 4
-        1.60,  // 5
-        1.80,  // 6
-        2.05,  // 7
-        2.30   // 8
-    ];
-
-    const scale = growth[Math.min(noClicks, 8)];
-
-    /*
-    İlk aşamalarda normal buton olarak büyüsün.
-    */
-
-    if (noClicks < 6) {
+    // Normal büyüme
+    if (noClicks < 7) {
 
         yesBtn.style.width =
             (baseWidth * scale) + "px";
@@ -383,26 +352,21 @@ yesBtn.addEventListener("click", async function () {
         yesBtn.style.height =
             (baseHeight * scale) + "px";
 
+        yesBtn.style.borderRadius = "999px";
+
     }
 
-
-    /*
-    6. tıklamadan itibaren ekranı
-    kademeli şekilde kaplamaya başlasın.
-    */
-
-    if (noClicks >= 6) {
+    // 7. tıklamadan sonra da ani sıçrama olmayacak
+    if (noClicks >= 7) {
 
         const progress =
-            (noClicks - 5) / 3;
+            Math.min((noClicks - 6) / 8, 1);
 
         const width =
-            280 +
-            (window.innerWidth * 1.35 - 280) * progress;
+            250 + (window.innerWidth * 1.2 - 250) * progress;
 
         const height =
-            100 +
-            (window.innerHeight * 1.35 - 100) * progress;
+            90 + (window.innerHeight * 1.2 - 90) * progress;
 
         yesBtn.style.position = "fixed";
 
@@ -415,31 +379,26 @@ yesBtn.addEventListener("click", async function () {
         yesBtn.style.width = width + "px";
         yesBtn.style.height = height + "px";
 
-        yesBtn.style.borderRadius = "50%";
+        yesBtn.style.borderRadius =
+            Math.max(20, 999 - progress * 700) + "px";
 
         yesBtn.style.fontSize =
-            (42 + progress * 18) + "px";
+            (35 + progress * 15) + "px";
     }
 
-
-    /*
-    8. tıklamada ekran tamamen Evet olur.
-    */
-
-    if (noClicks >= 8) {
+    // Son aşama
+    if (noClicks >= 14) {
 
         noBtn.style.display = "none";
 
-        yesBtn.style.width = "120vw";
-        yesBtn.style.height = "120vh";
+        yesBtn.style.width = "110vw";
+        yesBtn.style.height = "110vh";
 
         yesBtn.style.borderRadius = "0";
 
         yesBtn.style.fontSize = "48px";
-
     }
 }
-
         function moveNoButton() {
 
             /*
@@ -500,7 +459,15 @@ yesBtn.addEventListener("click", async function () {
             noBtn.style.top = randomY + "px";
 
         }
-
+        // Hayır butonu her kaçışta küçülür
+        const noScale = Math.max(
+            0.35,
+            1 - (noClicks * 0.055)
+        );
+        
+        noBtn.style.transform =
+            `scale(${noScale})`;
+        
 
         /*
         ==========================================
